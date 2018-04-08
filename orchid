@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+# Main entry point for the Orchid Font Tool
+# Call "./orchid help" for a list of supported commands
+
+import sys
+from src.commands.abstract_command import AbstractCommand
+from src.command_manager import CommandManager
+
+def main():
+    # Process command line arguments
+    if len(sys.argv) <= 1:
+      print("Orchid Font Tool - v0.1")
+      print("Type \"./orchid help\" for a list of supported commands")
+      sys.exit()
+
+    # Get the command to apply and its arguments
+    length = len(sys.argv)
+    if length > 1:
+        # Get the command
+        command_str = sys.argv[1]
+        command_manager = CommandManager()
+        command = command_manager.get_command(command_str)
+        if command == None:
+            print("Unknown command \"" + command_str + "\". Type \"./orchid help\" for a list of supported commands")
+            sys.exit()
+
+        # Get options
+        options = []
+        if length > 2:
+            options = sys.argv[2:length]
+
+        # Invoke the command
+        command.execute(options)
+        #print("Execute the command!")
+
+if __name__ == '__main__':
+    main()
